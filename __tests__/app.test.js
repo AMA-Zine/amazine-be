@@ -5,6 +5,10 @@ const app = require('../lib/app');
 
 describe('amazine routes', () => {
   beforeEach(() => {
-    return pool.query(fs.readFileSync('./sql/setup.sql', 'utf-8'))
+    return pool.query(fs.readFileSync('./sql/setup.sql', 'utf-8'));
+  });
+
+  it('is a dummy test', async() => {
+    expect(true).toEqual(true);
   });
 });
