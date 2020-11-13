@@ -60,4 +60,28 @@ describe('amazine routes', () => {
       .get('/api/v1/threads/1')
       .then(res => expect(res.body).toEqual(expected));
   });
+
+  it('deletes a thread via DELETE', async() => {
+    const thread = await Thread.insert({
+      title: 'words!',
+      author: 'HP Anyperson',
+      flair: 'halibut',
+      upvotes: 3,
+      downvotes: 1,
+      image: 'test5.png'
+    });
+
+    const response = await request(app)
+      .delete(`/api/v1/threads/${thread.id}`);
+
+    expect(response.body).toEqual({
+      id: expect.any(String),
+      title: 'words!',
+      author: 'HP Anyperson',
+      flair: 'halibut',
+      upvotes: 3,
+      downvotes: 1,
+      image: 'test5.png'
+    });
+  });
 });
