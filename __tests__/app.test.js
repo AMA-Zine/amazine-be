@@ -45,4 +45,19 @@ describe('amazine routes', () => {
         expect(res.body).toEqual(expect.arrayContaining(threads));
       });
   });
+
+  it('returns a thread by id via GET', async() => {
+    const expected = await Thread.insert(
+      {
+        title: 'words!',
+        author: 'HP Anyperson',
+        flair: 'halibut',
+        upvotes: 3,
+        downvotes: 1,
+        image: 'test5.png'
+      });
+    return request(app)
+      .get('/api/v1/threads/1')
+      .then(res => expect(res.body).toEqual(expected));
+  });
 });
