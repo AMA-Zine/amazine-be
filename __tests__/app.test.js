@@ -84,4 +84,36 @@ describe('amazine routes', () => {
       image: 'test5.png'
     });
   });
+
+  it('updates a thread via PUT', async() => {
+    const thread = await Thread.insert({
+      title: 'words!',
+      author: 'HP Anyperson',
+      flair: 'halibut',
+      upvotes: 3,
+      downvotes: 1,
+      image: 'test5.png'
+    });
+
+    const response = await request(app)
+      .put(`/api/v1/threads/${thread.id}`)
+      .send({
+        title: 'phrases!',
+        author: 'PB Specificperson',
+        flair: 'halibut',
+        upvotes: 3,
+        downvotes: 1,
+        image: 'test5.png'
+      });
+
+    expect(response.body).toEqual({
+      id: expect.any(String),
+      title: 'phrases!',
+      author: 'PB Specificperson',
+      flair: 'halibut',
+      upvotes: 3,
+      downvotes: 1,
+      image: 'test5.png'
+    });
+  });
 });
