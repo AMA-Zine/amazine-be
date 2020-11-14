@@ -9,6 +9,7 @@ describe('amazine routes', () => {
   beforeEach(() => {
     return pool.query(fs.readFileSync('./sql/setup.sql', 'utf-8'));
   });
+  
 
   it('creates a response via POST', async() => {
     const newThread = await Thread.insert({
@@ -26,7 +27,7 @@ describe('amazine routes', () => {
       }],
       threadId: newThread.id
     });
-    
+
     return request(app)
       .post('/api/v1/responses')
       .send(
@@ -43,4 +44,31 @@ describe('amazine routes', () => {
         });
       });
   });
+
+  // it('returns all responses via GET', async() => {
+  //   const responses = await Promise.all([
+  //     Response.insert({ 
+  //       qAndA: [{
+  //         question: 'here is a question about things you know about!', 
+  //         answer: 'here are words about the things I asked about!'
+  //       }],
+  //       threadId: '1'
+  //     }),
+  //     Response.insert({ 
+  //       qAndA: [{
+  //         question: 'here are words?', 
+  //         answer: 'I agree, those are words!'
+  //       }],
+  //       threadId: '2'
+  //     }),
+  //   ].map(response => Response.insert(response)));
+
+  //   return request(app)
+  //     .get('/api/v1/responses')
+  //     .then(res => {
+  //       responses.forEach(response => {
+  //         expect(res.body).toContainEqual(response);
+  //       });
+  //     });
+  // });
 });
