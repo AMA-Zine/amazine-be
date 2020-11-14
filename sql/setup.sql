@@ -13,6 +13,6 @@ CREATE TABLE threads (
 
 CREATE TABLE responses (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  q_and_a JSONB,
+  q_and_a JSONB[],
   thread_id BIGINT NOT NULL REFERENCES threads(id)
 );
