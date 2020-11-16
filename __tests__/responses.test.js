@@ -94,5 +94,67 @@ describe('amazine routes', () => {
         ]));
       });
   });
+
+  it('returns a response by id via GET', async() => {
+    await Thread.insert({
+      title: 'this is an interview',
+      author: 'Smarty Pants',
+      flair: 'stuff and things',
+      upvotes: 6,
+      downvotes: 4,
+      image: 'test1.png'
+    });
+    const response = await Response.insert({ 
+      qAndA: [{
+        question: 'here is a question about things you know about!', 
+        answer: 'here are words about the things I asked about!'
+      }],
+      threadId: 1
+    });
+
+    return request(app)
+      .get(`/api/v1/responses/${response.id}`)
+      .then(res => {
+        expect(res.body).toEqual(response);
+      });
+  });
+
+  it('updates a response via PUT', async() => {
+    await Thread.insert({
+      title: 'this is an interview',
+      author: 'Smarty Pants',
+      flair: 'stuff and things',
+      upvotes: 6,
+      downvotes: 4,
+      image: 'test1.png'
+    });
+    const response = await Response.insert({
+      qAndA: [{
+        question: 'here is a question about things you know about!', 
+        answer: 'here are words about the things I asked about!'
+      }],
+      threadId: 1
+    });
+
+    return request(app)
+      .put(`/api/v1/responses/${response.id}`)
+      .send({
+        qAndA: [{
+          question: 'here is a question about things you know about!',
+          answer: 'Oh wow! Such question!',
+        }],
+        threadId: 1
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          id: '1',
+          qAndA: [{
+            question: 'here is a question about things you know about!',
+            answer: 'Oh wow! Such question!',
+          }],
+          threadId: expect.any(String)
+        });
+      });
+  });
 });
 
