@@ -45,30 +45,54 @@ describe('amazine routes', () => {
       });
   });
 
-  // it('returns all responses via GET', async() => {
-  //   const responses = await Promise.all([
-  //     Response.insert({ 
-  //       qAndA: [{
-  //         question: 'here is a question about things you know about!', 
-  //         answer: 'here are words about the things I asked about!'
-  //       }],
-  //       threadId: '1'
-  //     }),
-  //     Response.insert({ 
-  //       qAndA: [{
-  //         question: 'here are words?', 
-  //         answer: 'I agree, those are words!'
-  //       }],
-  //       threadId: '2'
-  //     }),
-  //   ].map(response => Response.insert(response)));
+  it('returns all responses via GET', async() => {
+    await Thread.insert({
+      title: 'this is an interview',
+      author: 'Smarty Pants',
+      flair: 'stuff and things',
+      upvotes: 6,
+      downvotes: 4,
+      image: 'test1.png'
+    });
+    await Promise.all([
+      Response.insert({ 
+        qAndA: [{
+          question: 'here is a question about things you know about!', 
+          answer: 'here are words about the things I asked about!'
+        }],
+        threadId: 1
+      }),
+      Response.insert({ 
+        qAndA: [{
+          question: 'here are words?', 
+          answer: 'I agree, those are words!'
+        }],
+        threadId: 1
+      }),
+    ]);
 
-  //   return request(app)
-  //     .get('/api/v1/responses')
-  //     .then(res => {
-  //       responses.forEach(response => {
-  //         expect(res.body).toContainEqual(response);
-  //       });
-  //     });
-  // });
+    return request(app)
+      .get('/api/v1/responses')
+      .then(res => {
+        expect(res.body).toEqual(expect.arrayContaining([
+          { 
+            id: '1',
+            qAndA: [{
+              question: 'here is a question about things you know about!', 
+              answer: 'here are words about the things I asked about!'
+            }],
+            threadId: expect.any(String)
+          },
+          { 
+            id: '2',
+            qAndA: [{
+              question: 'here are words?', 
+              answer: 'I agree, those are words!'
+            }],
+            threadId: expect.any(String)
+          }
+        ]));
+      });
+  });
 });
+
