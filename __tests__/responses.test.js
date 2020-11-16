@@ -156,5 +156,30 @@ describe('amazine routes', () => {
         });
       });
   });
+
+  it('deletes a response by id via DELETE', async() => {
+    await Thread.insert({
+      title: 'this is an interview',
+      author: 'Smarty Pants',
+      flair: 'stuff and things',
+      upvotes: 6,
+      downvotes: 4,
+      image: 'test1.png'
+    });
+
+    const response = await Response.insert({
+      qAndA: [{
+        question: 'here is a question about things you know about!', 
+        answer: 'here are words about the things I asked about!'
+      }],
+      threadId: 1
+    });
+
+    return request(app)
+      .delete(`/api/v1/responses/${response.id}`)
+      .then(res => {
+        expect(res.body).toEqual(response);
+      });
+  });
 });
 
