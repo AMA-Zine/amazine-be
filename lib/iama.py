@@ -20,10 +20,6 @@ def qAndA(submission):
     threadAuthor = submission.author
     threadTitle = submission.title
     questionsAnswers = []
-    thread = {
-        'title': threadTitle,
-        'qAndA': questionsAnswers
-    }
 
     for comment in submission.comments:
         if comment.id not in already_grabbed:
@@ -39,7 +35,11 @@ def qAndA(submission):
                         already_grabbed.append(comment.id)
             except:
                 if debug:
-                    print('Error')
+                    print('ERROR')
+    thread = {
+        'title': threadTitle,
+        'qAndA': questionsAnswers[:20]
+    }
     threads.append(thread)
 
 
