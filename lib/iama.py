@@ -3,6 +3,8 @@ import json
 
 # 12 threads
 
+debug = False
+
 reddit = praw.Reddit(client_id='7WikPJZQ6etbpw',
                      client_secret='NZMLV1aIDDuSY3HvG4dwnUVzJK9GaA',
                      user_agent='Testing_API',
@@ -11,7 +13,7 @@ reddit = praw.Reddit(client_id='7WikPJZQ6etbpw',
 
 subreddit = reddit.subreddit('iama')
 
-hot = subreddit.top('week', limit=2)
+hot = subreddit.top('week', limit=12)
 
 
 def qAndA(submission):
@@ -35,8 +37,9 @@ def qAndA(submission):
                         y = json.dumps(x)
                         questionsAnswers.append(y)
                         already_grabbed.append(comment.id)
-            except AttributeError as e:
-                print('Error: Out of Replies. Exception: ', e)
+            except:
+                if debug:
+                    print('Error')
     threads.append(thread)
 
 
