@@ -1,8 +1,6 @@
 import praw
 import json
 
-# 12 threads
-
 debug = False
 
 reddit = praw.Reddit(client_id='7WikPJZQ6etbpw',
@@ -13,7 +11,7 @@ reddit = praw.Reddit(client_id='7WikPJZQ6etbpw',
 
 subreddit = reddit.subreddit('iama')
 
-hot = subreddit.top('week', limit=12)
+hot = subreddit.top('month', limit=10)
 
 
 def qAndA(submission):
@@ -30,8 +28,8 @@ def qAndA(submission):
                             'question': comment.body,
                             'answer': reply.body
                         }
-                        y = json.dumps(x)
-                        questionsAnswers.append(y)
+
+                        questionsAnswers.append(x)
                         already_grabbed.append(comment.id)
             except:
                 if debug:
