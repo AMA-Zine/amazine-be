@@ -1,7 +1,7 @@
 import praw
 import json
 
-# 12 threads
+debug = False
 
 reddit = praw.Reddit(client_id='7WikPJZQ6etbpw',
                      client_secret='NZMLV1aIDDuSY3HvG4dwnUVzJK9GaA',
@@ -11,17 +11,13 @@ reddit = praw.Reddit(client_id='7WikPJZQ6etbpw',
 
 subreddit = reddit.subreddit('iama')
 
-hot = subreddit.top('week', limit=2)
+hot = subreddit.top('month', limit=10)
 
 
 def qAndA(submission):
     threadAuthor = submission.author
     threadTitle = submission.title
     questionsAnswers = []
-    thread = {
-        'title': threadTitle,
-        'qAndA': questionsAnswers
-    }
 
     for comment in submission.comments:
         if comment.id not in already_grabbed:
@@ -32,11 +28,16 @@ def qAndA(submission):
                             'question': comment.body,
                             'answer': reply.body
                         }
-                        y = json.dumps(x)
-                        questionsAnswers.append(y)
+
+                        questionsAnswers.append(x)
                         already_grabbed.append(comment.id)
-            except AttributeError as e:
-                print('Error: Out of Replies. Exception: ', e)
+            except:
+                if debug:
+                    print('ERROR')
+    thread = {
+        'title': threadTitle,
+        'qAndA': questionsAnswers[:20]
+    }
     threads.append(thread)
 
 
