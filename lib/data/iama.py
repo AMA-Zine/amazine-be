@@ -17,6 +17,7 @@ hot = subreddit.top('month', limit=10)
 def qAndA(submission):
     threadAuthor = submission.author
     threadTitle = submission.title
+    threadFlair = submission.link_flair_text
     questionsAnswers = []
 
     for comment in submission.comments:
@@ -36,6 +37,7 @@ def qAndA(submission):
                     print('ERROR')
     thread = {
         'title': threadTitle,
+        'flair': threadFlair,
         'qAndA': questionsAnswers[:20]
     }
     threads.append(thread)
