@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS responses CASCADE;
 CREATE TABLE threads (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   title TEXT NOT NULL,
-  author TEXT NOT NULL,
+  author TEXT,
   flair TEXT,
   upvotes INT,
   downvotes INT,
