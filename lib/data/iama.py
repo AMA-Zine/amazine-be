@@ -1,13 +1,14 @@
 import praw
 import json
+import sys
 
 debug = False
 
-reddit = praw.Reddit(client_id='7WikPJZQ6etbpw',
-                     client_secret='NZMLV1aIDDuSY3HvG4dwnUVzJK9GaA',
-                     user_agent='Testing_API',
-                     username='Dev-Sandbox',
-                     password='Developer4466')
+reddit = praw.Reddit(client_id=sys.argv[1],
+                     client_secret=sys.argv[2],
+                     user_agent=sys.argv[3],
+                     username=sys.argv[4],
+                     password=sys.argv[5])
 
 subreddit = reddit.subreddit('iama')
 
