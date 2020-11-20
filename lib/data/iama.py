@@ -12,7 +12,7 @@ reddit = praw.Reddit(client_id=sys.argv[1],
 
 subreddit = reddit.subreddit('iama')
 
-hot = subreddit.top('month', limit=10)
+hot = subreddit.top('month', limit=20)
 
 
 def qAndA(submission):
